@@ -16,7 +16,7 @@ function routes(app) {
 
 
     router.get('/texto-traducido-ingles', async (req, res) => {
-        
+        texto="hola"
         const textEnglish = await translate(texto, { to: 'en' });
         res.send(textEnglish);
     });
