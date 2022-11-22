@@ -5,7 +5,7 @@ var cors = require('cors');
 
 const PORT = process.env.PORT || 3000;
 //const dev = process.env.NODE_ENV !== "production";
-const dev=false;
+const dev=true;
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
