@@ -1,0 +1,13 @@
+
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+    "scripts": {
+    "dev": "node server/index.js",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },

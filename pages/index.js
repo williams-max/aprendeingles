@@ -1,0 +1,260 @@
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Box, Button,Card,CardActions,Typography,CardContent} from '@mui/material';
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import TextField from '@mui/material/TextField';
+import createCache from '@emotion/cache';
+import Cookie from "js-cookie";
+import { parseCookies } from "../src/components/lib/parseCookies";
+//import { parseCookies } from "../../../src/components/lib/parseCookies";
+
+const cache = createCache({
+  key: 'css',
+  prepend: true,
+});
+
+
+const Home = (props) => {
+
+const urlProducction="http://localhost:3000";
+const urlDev="http://localhost:3000";
+
+console.log("props ",props)
+  const [message, setMessage] = useState(props.initialRememberValue);
+  const [textoIngles, setTextoIngles] = useState('');
+  const [textoEspanol, setTextoEspanol] = useState('');
+
+  const [wordEspanol, setWordEspanol] = useState('');
+  const [wordIngles, setWordIngles] = useState('');
+
+
+  const inputProps = {
+    step: 300,
+    width: "700px"
+  };
+
+
+  useEffect(() => {
+    if (message) {
+      Cookie.set("rememberMe", message.toString());
+    }
+   
+  }, [message]);
+
+  const handleChange = event => {
+    setMessage(event.target.value);
+
+    console.log('value is:', event.target.value);
+  };
+
+  const apiEnviandoTexto = async () => {
+
+    try {
+      const result = await axios.post(`http://localhost:3000/api/recibo-texto`, {
+        "texto": message,
+
+      })
+      console.log("Data ClientConect  ", result.data)
+
+    } catch (error) {
+
+      console.log(error)
+    }
+  }
+
+  const apiTextoAlIngles = async () => {
+
+    try {
+      const result = await axios.get(`http://localhost:3000/api/texto-traducido-ingles`)
+      console.log("Data ClientConect  ", result.data)
+      setTextoIngles(result.data);
+
+    } catch (error) {
+
+      console.log(error)
+    }
+  }
+
+  const apiTextoAlEspanol = async () => {
+    
+    try {
+      const result = await axios.get(`http://localhost:3000/api/texto-traducido-espanol`)
+      console.log("Data ClientConect  ", result.data)
+      setTextoEspanol(result.data);
+
+    } catch (error) {
+
+      console.log(error)
+    }
+  }
+  /*
+    const enviandoTexto = () => {
+      apiDataClientConect();
+    }*/
+
+  const verTraduccionAlIngles = async () => {
+    //wrapper();
+    await apiEnviandoTexto();
+    apiTextoAlIngles();
+  }
+
+  const reproducirAudioInlgesEspanol = async () => {
+    wrapper();
+
+    
+  }
+  /*
+    const msg1 = new SpeechSynthesisUtterance()
+    msg1.lang = 'en-US';
+    //msg1.lang = 'es-ES';
+    msg1.text = "hello how are you"
+  
+  
+    const msg = new SpeechSynthesisUtterance()
+    // msg.lang = 'en-US';
+    msg.lang = 'es-ES';
+    msg.text = "hola como estas"*/
+  /*
+    useEffect(() => {
+     // window.speechSynthesis.pause();
+      window.speechSynthesis.speak(msg1)
+     console.log("rep");
+    }, [])*/
+  /*
+    useEffect(() => {
+      window.speechSynthesis.speak(msg1)
+    }, [msg1])*/
+
+  async function wrapper() {
+    //var text = "sen ten ce one. sen ten ce two. sen ten ce three.";
+    // var text = "sen ten ce one. hello how are you. sen ten ce three.";
+    // var result = text.match( /[^\.!\?]+[\.!\?]+/g );
+    // var result = ["hello","how","are","you"]
+    //var text = "hello how are you"
+    var text = message;
+    var result = text.split(" ");
+
+    var ssu = new SpeechSynthesisUtterance();
+    ssu.lang = 'en-US';
+    var palabra = new SpeechSynthesisUtterance();
+    palabra.lang = 'es-ES';
+    for (var i = 0; i < result.length; i++) {
+      var sentence = result[i];
+      console.log("sentence ", sentence);/* */
+      ssu.text = sentence;
+      /*actual estado word ingles */
+      setWordIngles(sentence);
+
+      await new Promise(function (resolve) {
+        ssu.onend = resolve;
+        window.speechSynthesis.speak(ssu);
+      });
+
+      try {
+        const result = await axios.post(`http://localhost:3000/api/recibo-texto`, {
+          "texto": sentence,
+
+        })
+        //  console.log("Data ClientConect  ", result.data)
+
+      } catch (error) {
+
+        console.log(error)
+      }
+
+
+      const palEspanol = await axios.get(`http://localhost:3000/api/texto-traducido-espanol`)
+
+
+      //  const palEspanol = await apiTextoAlEspanol();
+      var word = palEspanol.data;
+      /*actula estado español */
+      setWordEspanol(word);
+      console.log("frond end ", word)
+
+      palabra.text = word;
+      await new Promise(function (resolve) {
+        palabra.onend = resolve;
+        window.speechSynthesis.speak(palabra);
+      });
+    }
+  }
+
+  /*
+    useEffect(() => {
+      console.log("hola")
+      wrapper();
+      //window.speechSynthesis.speak(msg1)
+    }, [])*/
+
+
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Create Next App</title>
+        <meta name="description" content="Generated by create next app" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className={styles.main}>
+        <div >
+
+          <h1>Traductor de palabras ingles-esañol + audio repetido</h1>
+          <TextField sx={{ width: '80%' }} type="text" label="Escriba palabras en ingles"
+            id="message"
+            name="message"
+            value={message}
+            onChange={handleChange}
+            inputProps={inputProps} />
+
+          <Button variant="outlined" onClick={verTraduccionAlIngles}>Traduccion al Ingles</Button>
+
+          <Button onClick={reproducirAudioInlgesEspanol}>
+            Reproducir Audio intercalado ingles-español
+            <RecordVoiceOverIcon />
+          </Button>
+          <h1>
+            {textoIngles}
+          </h1>
+         
+        </div>
+        <Card sx={{ minWidth: 275 , backgroundColor:'black'}}>
+          <CardContent>
+            <Typography sx={{ fontSize: 14,color:'white' }} color="text.secondary" gutterBottom>
+            {wordIngles}
+            </Typography>
+            
+            <Typography sx={{ mb: 1.5,color:'white'}} color="text.secondary">
+            {wordEspanol}
+            </Typography>
+          
+          </CardContent>
+      
+        </Card>
+      </main>
+
+      <footer className={styles.footer}>
+        <a
+
+        >
+          Powered by{' '}
+
+        </a>
+      </footer>
+    </div>
+  )
+}
+
+Home.getInitialProps = async ({ req }) => {
+  const cookies = parseCookies(req);
+
+  return {
+    initialRememberValue: cookies.rememberMe,
+  };
+};
+
+
+export default Home;
