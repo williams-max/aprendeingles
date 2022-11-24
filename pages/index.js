@@ -102,6 +102,11 @@ console.log("props ",props)
     apiTextoAlIngles();
   }
 
+  const verTraduccionAlEspanol = async () => {
+    //wrapper();
+    await apiEnviandoTexto();
+    apiTextoAlEspanol();
+  }
   const reproducirAudioInlgesEspanol = async () => {
     wrapper();
 
@@ -212,7 +217,7 @@ console.log("props ",props)
             inputProps={inputProps} />
 
           <Button variant="outlined" onClick={verTraduccionAlIngles}>Traduccion al Ingles</Button>
-
+          <Button variant="outlined" onClick={verTraduccionAlEspanol}>Traduccion al Español</Button>
           <Button onClick={reproducirAudioInlgesEspanol}>
             Reproducir Audio intercalado ingles-español
             <RecordVoiceOverIcon />
@@ -220,7 +225,9 @@ console.log("props ",props)
           <h1>
             {textoIngles}
           </h1>
-         
+          <h1>
+            {textoEspanol}
+          </h1>
         </div>
         <Card sx={{ minWidth: 275 , backgroundColor:'black'}}>
           <CardContent>
