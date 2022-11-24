@@ -19,7 +19,8 @@ const cache = createCache({
 
 const Home = (props) => {
 
-const urlProducction="http://localhost:3000";
+const urlProducction="https://backend-aprendreingles.vercel.app/api" 
+//http://localhost:3000";
 const urlDev="https://aprendeingles.vercel.app/";
 
 console.log("props ",props)
@@ -53,7 +54,7 @@ console.log("props ",props)
   const apiEnviandoTexto = async () => {
 
     try {
-      const result = await axios.post(`http://localhost:3000/api/recibo-texto`, {
+      const result = await axios.post(`${urlProducction}/recibo-texto`, {
         "texto": message,
 
       })
@@ -68,7 +69,7 @@ console.log("props ",props)
   const apiTextoAlIngles = async () => {
 
     try {
-      const result = await axios.get(`http://localhost:3000/api/texto-traducido-ingles`)
+      const result = await axios.get(`${urlProducction}/texto-traducido-ingles`)
       console.log("Data ClientConect  ", result.data)
       setTextoIngles(result.data);
 
@@ -81,7 +82,7 @@ console.log("props ",props)
   const apiTextoAlEspanol = async () => {
     
     try {
-      const result = await axios.get(`http://localhost:3000/api/texto-traducido-espanol`)
+      const result = await axios.get(`${urlProducction}/texto-traducido-espanol`)
       console.log("Data ClientConect  ", result.data)
       setTextoEspanol(result.data);
 
@@ -154,7 +155,7 @@ console.log("props ",props)
       });
 
       try {
-        const result = await axios.post(`http://localhost:3000/api/recibo-texto`, {
+        const result = await axios.post(`${urlProducction}/recibo-texto`, {
           "texto": sentence,
 
         })
@@ -166,7 +167,7 @@ console.log("props ",props)
       }
 
 
-      const palEspanol = await axios.get(`http://localhost:3000/api/texto-traducido-espanol`)
+      const palEspanol = await axios.get(`${urlProducction}/texto-traducido-espanol`)
 
 
       //  const palEspanol = await apiTextoAlEspanol();
