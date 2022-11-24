@@ -13,12 +13,10 @@ class MyDocument extends Document {
 
 
                     <div id="sfcxwr6n7qe1lzzdjd5q6d6cb4xuxwx6efk"></div>
-                    <script type="text/javascript" src="https://counter5.optistats.ovh/private/counter.js?c=hp2n4np4k9wz64tbc2h4847blu3btyy5&down=async" async>
-                    </script>
-                    <noscript>
-                        <a href="https://www.contadorvisitasgratis.com" title="contadores para blogger gratis">
-                        <img src="https://counter5.optistats.ovh/private/contadorvisitasgratis.php?c=hp2n4np4k9wz64tbc2h4847blu3btyy5" border="0" title="contadores para blogger gratis" alt="contadores para blogger gratis"/>
-                    </a></noscript>
+                    <script type="text/javascript" src="https://counter5.optistats.ovh/private/counter.js?c=xwr6n7qe1lzzdjd5q6d6cb4xuxwx6efk&down=async" async></script><noscript>
+                        <a href="https://www.contadorvisitasgratis.com" title="contador de visitas blogger">
+                            <img src="https://counter5.optistats.ovh/private/contadorvisitasgratis.php?c=xwr6n7qe1lzzdjd5q6d6cb4xuxwx6efk" border="0" title="contador de visitas blogger" alt="contador de visitas blogger"/>
+                        </a></noscript>
                 </Head>
 
                 <body>
