@@ -111,7 +111,7 @@ const Home = (props) => {
       const result = await axios.post(`${urlProducction}/set-textdbone`, {
         "texto": dbTextOne
       })
-      //  console.log("Data ClientConect  ", result.data)
+       console.log("post set textdbone  ", result.data)
 
     } catch (error) {
 
