@@ -3,7 +3,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button,Card,CardActions,Typography,CardContent} from '@mui/material';
+import { Box, Button, Card, CardActions, Typography, CardContent } from '@mui/material';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import TextField from '@mui/material/TextField';
 import createCache from '@emotion/cache';
@@ -19,18 +19,20 @@ const cache = createCache({
 
 const Home = (props) => {
 
-const urlProducction="https://backend-aprendreingles.vercel.app/api" 
-//http://localhost:3000";
-const urlDev="https://aprendeingles.vercel.app/";
+  const urlProducction = "http://localhost:4000/api"
+  //"https://backend-aprendreingles.vercel.app/api" 
+  //http://localhost:3000";
+  const urlDev = "https://aprendeingles.vercel.app/";
 
-console.log("props ",props)
+  console.log("props ", props)
   const [message, setMessage] = useState(props.initialRememberValue);
   const [textoIngles, setTextoIngles] = useState('');
   const [textoEspanol, setTextoEspanol] = useState('');
 
   const [wordEspanol, setWordEspanol] = useState('');
   const [wordIngles, setWordIngles] = useState('');
-
+  //var for api dbone.json
+  const [dbTextOne, setDbTextoOne] = useState('');
 
   const inputProps = {
     step: 300,
@@ -42,11 +44,26 @@ console.log("props ",props)
     if (message) {
       Cookie.set("rememberMe", message.toString());
     }
-   
+
   }, [message]);
+
+  useEffect(() => {
+    //lamar api get dbtext
+    
+    apiGETdbOne()
+  }, []);
 
   const handleChange = event => {
     setMessage(event.target.value);
+
+    console.log('value is:', event.target.value);
+  };
+
+  const btnApiSETdbone = async () => {
+    apiSETdbOne();
+  }
+  const handleChangeDbone = event => {
+    setDbTextoOne(event.target.value);
 
     console.log('value is:', event.target.value);
   };
@@ -66,6 +83,32 @@ console.log("props ",props)
     }
   }
 
+  const apiGETdbOne = async () => {
+
+    try {
+      const result = await axios.get(`${urlProducction}/get-textdbone`)
+      console.log("Data ClientConect  ", result.data)
+      setDbTextoOne(result.data.texto)
+
+    } catch (error) {
+
+      console.log(error)
+    }
+  }
+
+  const apiSETdbOne = async () => {
+
+    try {
+      const result = await axios.post(`${urlProducction}/set-textdbone`,{
+        "texto": dbTextOne
+      })
+      console.log("Data ClientConect  ", result.data)
+
+    } catch (error) {
+
+      console.log(error)
+    }
+  }
   const apiTextoAlIngles = async () => {
 
     try {
@@ -80,7 +123,7 @@ console.log("props ",props)
   }
 
   const apiTextoAlEspanol = async () => {
-    
+
     try {
       const result = await axios.get(`${urlProducction}/texto-traducido-espanol`)
       console.log("Data ClientConect  ", result.data)
@@ -110,29 +153,9 @@ console.log("props ",props)
   const reproducirAudioInlgesEspanol = async () => {
     wrapper();
 
-    
+
   }
-  /*
-    const msg1 = new SpeechSynthesisUtterance()
-    msg1.lang = 'en-US';
-    //msg1.lang = 'es-ES';
-    msg1.text = "hello how are you"
-  
-  
-    const msg = new SpeechSynthesisUtterance()
-    // msg.lang = 'en-US';
-    msg.lang = 'es-ES';
-    msg.text = "hola como estas"*/
-  /*
-    useEffect(() => {
-     // window.speechSynthesis.pause();
-      window.speechSynthesis.speak(msg1)
-     console.log("rep");
-    }, [])*/
-  /*
-    useEffect(() => {
-      window.speechSynthesis.speak(msg1)
-    }, [msg1])*/
+
 
   async function wrapper() {
     //var text = "sen ten ce one. sen ten ce two. sen ten ce three.";
@@ -164,7 +187,7 @@ console.log("props ",props)
           "texto": sentence,
 
         })
-        //  console.log("Data ClientConect  ", result.data)
+
 
       } catch (error) {
 
@@ -175,7 +198,6 @@ console.log("props ",props)
       const palEspanol = await axios.get(`${urlProducction}/texto-traducido-espanol`)
 
 
-      //  const palEspanol = await apiTextoAlEspanol();
       var word = palEspanol.data;
       /*actula estado español */
       setWordEspanol(word);
@@ -189,12 +211,8 @@ console.log("props ",props)
     }
   }
 
-  /*
-    useEffect(() => {
-      console.log("hola")
-      wrapper();
-      //window.speechSynthesis.speak(msg1)
-    }, [])*/
+
+
 
 
   return (
@@ -229,19 +247,28 @@ console.log("props ",props)
             {textoEspanol}
           </h1>
         </div>
-        <Card sx={{ minWidth: 275 , backgroundColor:'black'}}>
+        <Card sx={{ minWidth: 275, backgroundColor: 'black' }}>
           <CardContent>
-            <Typography sx={{ fontSize: 14,color:'white' }} color="text.secondary" gutterBottom>
-            {wordIngles}
+            <Typography sx={{ fontSize: 14, color: 'white' }} color="text.secondary" gutterBottom>
+              {wordIngles}
             </Typography>
-            
-            <Typography sx={{ mb: 1.5,color:'white'}} color="text.secondary">
-            {wordEspanol}
+
+            <Typography sx={{ mb: 1.5, color: 'white' }} color="text.secondary">
+              {wordEspanol}
             </Typography>
-          
+
           </CardContent>
-      
+
         </Card>
+        <br />
+        {/*texto de la base de datos */}
+        <TextField sx={{ width: '100%' }} type="text" label="save in db(Base de datos)"
+          id="message"
+          name="message"
+          value={dbTextOne}
+          onChange={handleChangeDbone}
+        />
+        <Button variant="contained" onClick={btnApiSETdbone}>update text in db</Button>
       </main>
 
       <footer className={styles.footer}>
