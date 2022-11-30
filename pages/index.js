@@ -69,6 +69,12 @@ const Home = (props) => {
     console.log('value is:', event.target.value);
   };
 
+  const btnUpdateMessage = async () => {
+    console.log("update message")
+    setMessage(dbTextOne)
+
+    reproducirAudioInlgesEspanol();
+  }
   const apiEnviandoTexto = async () => {
 
     try {
@@ -227,7 +233,7 @@ const Home = (props) => {
       <main className={styles.main}>
         <div >
 
-          <h1>Traductor de palabras ingles-esañol + audio repetido</h1>
+          <h6>Traductor de palabras ingles-esañol + audio repetido</h6>
           <TextField sx={{ width: '80%' }} type="text" label="Escriba palabras en ingles"
             id="message"
             name="message"
@@ -270,6 +276,10 @@ const Home = (props) => {
           onChange={handleChangeDbone}
         />
         <Button variant="contained" onClick={btnApiSETdbone}>update text in db</Button>
+        <Button onClick={btnUpdateMessage}>
+        <RecordVoiceOverIcon/>
+        </Button>
+      
       </main>
 
       <footer className={styles.footer}>
