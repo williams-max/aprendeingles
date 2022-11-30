@@ -19,7 +19,7 @@ const cache = createCache({
 
 const Home = (props) => {
 
-  const urlProducction ="https://backend-aprendreingles.vercel.app/api";
+  const urlProducction = "https://backend-aprendreingles.vercel.app/api";
   //const urlProducction ="http://localhost:4000/api";
   // "https://backend-aprendreingles.vercel.app/api";
   //"
@@ -52,7 +52,7 @@ const Home = (props) => {
 
   useEffect(() => {
     //lamar api get dbtext
-    
+
     apiGETdbOne()
   }, []);
 
@@ -96,7 +96,7 @@ const Home = (props) => {
 
     try {
       const result = await axios.get(`${urlProducction}/get-textdbone`)
-    //  console.log("Data ClientConect  ", result.data)
+      console.log("datos del db.json ", result.data)
       setDbTextoOne(result.data.texto)
 
     } catch (error) {
@@ -108,10 +108,10 @@ const Home = (props) => {
   const apiSETdbOne = async () => {
 
     try {
-      const result = await axios.post(`${urlProducction}/set-textdbone`,{
+      const result = await axios.post(`${urlProducction}/set-textdbone`, {
         "texto": dbTextOne
       })
-    //  console.log("Data ClientConect  ", result.data)
+      //  console.log("Data ClientConect  ", result.data)
 
     } catch (error) {
 
@@ -122,7 +122,7 @@ const Home = (props) => {
 
     try {
       const result = await axios.get(`${urlProducction}/texto-traducido-ingles`)
-    //  console.log("Data ClientConect  ", result.data)
+      //  console.log("Data ClientConect  ", result.data)
       setTextoIngles(result.data);
 
     } catch (error) {
@@ -135,7 +135,7 @@ const Home = (props) => {
 
     try {
       const result = await axios.get(`${urlProducction}/texto-traducido-espanol`)
-    //  console.log("Data ClientConect  ", result.data)
+      //  console.log("Data ClientConect  ", result.data)
       setTextoEspanol(result.data);
 
     } catch (error) {
@@ -279,9 +279,9 @@ const Home = (props) => {
         />
         <Button variant="contained" onClick={btnApiSETdbone}>update text in db</Button>
         <Button onClick={btnUpdateMessage}>
-        <RecordVoiceOverIcon/>
+          <RecordVoiceOverIcon />
         </Button>
-      
+
       </main>
 
       <footer className={styles.footer}>
