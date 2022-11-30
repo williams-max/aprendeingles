@@ -19,8 +19,10 @@ const cache = createCache({
 
 const Home = (props) => {
 
-  const urlProducction = "https://backend-aprendreingles.vercel.app/api";
-  //"http://localhost:4000/api"
+  const urlProducction ="https://backend-aprendreingles.vercel.app/api";
+  //const urlProducction ="http://localhost:4000/api";
+  // "https://backend-aprendreingles.vercel.app/api";
+  //"
   // 
   //http://localhost:3000";
   const urlDev = "https://aprendeingles.vercel.app/";
@@ -94,7 +96,7 @@ const Home = (props) => {
 
     try {
       const result = await axios.get(`${urlProducction}/get-textdbone`)
-      console.log("Data ClientConect  ", result.data)
+    //  console.log("Data ClientConect  ", result.data)
       setDbTextoOne(result.data.texto)
 
     } catch (error) {
@@ -109,7 +111,7 @@ const Home = (props) => {
       const result = await axios.post(`${urlProducction}/set-textdbone`,{
         "texto": dbTextOne
       })
-      console.log("Data ClientConect  ", result.data)
+    //  console.log("Data ClientConect  ", result.data)
 
     } catch (error) {
 
@@ -120,7 +122,7 @@ const Home = (props) => {
 
     try {
       const result = await axios.get(`${urlProducction}/texto-traducido-ingles`)
-      console.log("Data ClientConect  ", result.data)
+    //  console.log("Data ClientConect  ", result.data)
       setTextoIngles(result.data);
 
     } catch (error) {
@@ -133,7 +135,7 @@ const Home = (props) => {
 
     try {
       const result = await axios.get(`${urlProducction}/texto-traducido-espanol`)
-      console.log("Data ClientConect  ", result.data)
+    //  console.log("Data ClientConect  ", result.data)
       setTextoEspanol(result.data);
 
     } catch (error) {
@@ -233,7 +235,7 @@ const Home = (props) => {
       <main className={styles.main}>
         <div >
 
-          <h6>Traductor de palabras ingles-esañol + audio repetido</h6>
+          <h5>Traductor de palabras ingles-esañol + audio repetido</h5>
           <TextField sx={{ width: '80%' }} type="text" label="Escriba palabras en ingles"
             id="message"
             name="message"
