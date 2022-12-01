@@ -10,7 +10,11 @@ import createCache from '@emotion/cache';
 import Cookie from "js-cookie";
 import { parseCookies } from "../src/components/lib/parseCookies";
 //import { parseCookies } from "../../../src/components/lib/parseCookies";
+import firebaseApp from '../firebase';
+import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { async } from '@firebase/util';
 
+const db = getFirestore(firebaseApp);
 const cache = createCache({
   key: 'css',
   prepend: true,
@@ -53,7 +57,8 @@ const Home = (props) => {
   useEffect(() => {
     //lamar api get dbtext
 
-    apiGETdbOne()
+   // apiGETdbOne()
+    apiGetCitaTxt();
   }, []);
 
   const handleChange = event => {
@@ -105,8 +110,27 @@ const Home = (props) => {
     }
   }
 
+  const apiGetCitaTxt = async () => {
+    const getCitaTxtID = await getDoc(doc(db, 'cita', 'axjiZ2ZVpObICIvhou0r'));
+    setDbTextoOne(getCitaTxtID.data().texto)
+    console.log("cita recuperado ", getCitaTxtID.data().texto)
+  //  console.log("cita recuperado ", getCitaTxtID.data().valor.texto)
+  }
+
   const apiSETdbOne = async () => {
 
+    const valor = {
+      texto: dbTextOne
+    }
+    try {
+
+      await updateDoc(doc(db, 'cita', 'axjiZ2ZVpObICIvhou0r'), valor);
+      console.log("guardado")
+    
+    } catch (error) {
+      console.log(error)
+    }
+    /*
     try {
       const result = await axios.post(`${urlProducction}/set-textdbone`, {
         "texto": dbTextOne
@@ -116,7 +140,7 @@ const Home = (props) => {
     } catch (error) {
 
       console.log(error)
-    }
+    }*/
   }
   const apiTextoAlIngles = async () => {
 
