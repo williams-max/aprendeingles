@@ -3,7 +3,10 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Card, CardActions, Typography, CardContent } from '@mui/material';
+import {
+  Box, Button, Card, CardActions, Typography, CardContent,
+  Switch, LinearProgress
+} from '@mui/material';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import TextField from '@mui/material/TextField';
 import createCache from '@emotion/cache';
@@ -13,6 +16,7 @@ import { parseCookies } from "../src/components/lib/parseCookies";
 import firebaseApp from '../firebase';
 import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { async } from '@firebase/util';
+import useInterval from "use-interval";
 
 const db = getFirestore(firebaseApp);
 const cache = createCache({
@@ -31,7 +35,7 @@ const Home = (props) => {
   //http://localhost:3000";
   const urlDev = "https://aprendeingles.vercel.app/";
 
-  console.log("props ", props)
+  //console.log("props ", props)
   const [message, setMessage] = useState(props.initialRememberValue);
   const [textoIngles, setTextoIngles] = useState('');
   const [textoEspanol, setTextoEspanol] = useState('');
@@ -40,12 +44,16 @@ const Home = (props) => {
   const [wordIngles, setWordIngles] = useState('');
   //var for api dbone.json
   const [dbTextOne, setDbTextoOne] = useState('');
+  //var repticion
+  const [activeRep, setActivateRep] = useState(false)
+  const [vozHablando, setVozHablando] = useState(false)
 
-  const inputProps = {
-    step: 300,
-    width: "700px"
-  };
+  const [progress, setProgress] = React.useState(0);
+  //onst [tamanioTexto,setTamanioTexto]=useState(0);
 
+  var tamnioTexto = 0;
+  var divisionAvanzar = 0;
+  var suma=0;
 
   useEffect(() => {
     if (message) {
@@ -60,6 +68,25 @@ const Home = (props) => {
     // apiGETdbOne()
     apiGetCitaTxt();
   }, []);
+
+
+
+
+
+  useInterval(
+    () => {
+      // Your custom logic here
+      console.log("calling metod weapper every minute")
+      if (activeRep && vozHablando == false) {
+        wrapper();
+      }
+
+    },
+
+
+    // Delay in milliseconds or null to stop it
+    activeRep ? 10000 : null,
+  )
 
   const handleChange = event => {
     setMessage(event.target.value);
@@ -89,7 +116,7 @@ const Home = (props) => {
         "texto": message,
 
       })
-      console.log("Data ClientConect  ", result.data)
+
 
     } catch (error) {
 
@@ -97,23 +124,12 @@ const Home = (props) => {
     }
   }
 
-  const apiGETdbOne = async () => {
 
-    try {
-      const result = await axios.get(`${urlProducction}/get-textdbone`)
-      console.log("datos del db.json ", result.data)
-      setDbTextoOne(result.data.texto)
-
-    } catch (error) {
-
-      console.log(error)
-    }
-  }
 
   const apiGetCitaTxt = async () => {
     const getCitaTxtID = await getDoc(doc(db, 'cita', 'axjiZ2ZVpObICIvhou0r'));
     setDbTextoOne(getCitaTxtID.data().texto)
-    console.log("cita recuperado ", getCitaTxtID.data().texto)
+    //console.log("cita recuperado ", getCitaTxtID.data().texto)
     //  console.log("cita recuperado ", getCitaTxtID.data().valor.texto)
   }
 
@@ -130,17 +146,7 @@ const Home = (props) => {
     } catch (error) {
       console.log(error)
     }
-    /*
-    try {
-      const result = await axios.post(`${urlProducction}/set-textdbone`, {
-        "texto": dbTextOne
-      })
-       console.log("post set textdbone  ", result.data)
 
-    } catch (error) {
-
-      console.log(error)
-    }*/
   }
   const apiTextoAlIngles = async () => {
 
@@ -191,6 +197,7 @@ const Home = (props) => {
 
 
   async function wrapper() {
+    setVozHablando(true);
     //var text = "sen ten ce one. sen ten ce two. sen ten ce three.";
     // var text = "sen ten ce one. hello how are you. sen ten ce three.";
     // var result = text.match( /[^\.!\?]+[\.!\?]+/g );
@@ -198,12 +205,22 @@ const Home = (props) => {
     //var text = "hello how are you"
     var text = message;
     var result = text.split(" ");
-
+    var i;
     var ssu = new SpeechSynthesisUtterance();
     ssu.lang = 'en-US';
     var palabra = new SpeechSynthesisUtterance();
     palabra.lang = 'es-ES';
-    for (var i = 0; i < result.length; i++) {
+    //variables barra lineal progress
+    tamnioTexto = result.length;
+    divisionAvanzar = 100 / tamnioTexto;
+    //fin variables barra lineal progress
+    for (i = 0; i < result.length; i++) {
+
+      //logica barra lienal progress
+       suma=suma+divisionAvanzar;
+      console.log("suma ",suma)
+      setProgress(suma)
+      //fin logica barra lineal progress
       var sentence = result[i];
       console.log("sentence ", sentence);/* */
       ssu.text = sentence;
@@ -242,9 +259,19 @@ const Home = (props) => {
         window.speechSynthesis.speak(palabra);
       });
     }
+    if (i == result.length) {
+      setVozHablando(false);
+      console.log("termine de repetir el texto");
+    }
   }
 
 
+
+  //control checked
+  const handleChangeActivate = (event) => {
+    console.log("check ", event.target.checked)
+    setActivateRep(event.target.checked);
+  };
 
 
 
@@ -257,54 +284,68 @@ const Home = (props) => {
       </Head>
 
       <main className={styles.main}>
-        
 
-          <h5>Traductor de palabras  + audio repetido intercalando ingles-esañol</h5>
-          <TextField sx={{ width: '80%' }}  InputProps={{ sx: { height: 200} }}  type="text" label="Escriba palabras en ingles"
-            id="message"
-            name="message"
-            value={message}
-            onChange={handleChange}
-            multiline
-            rows={8}
-             />
-          <br />
-          <CardActions sx={{display:'flex'}}>
+
+        <h5>Traductor de palabras  + reporductor de audio repetido intercalando ingles-esañol</h5>
+        <TextField sx={{ width: '80%' }} InputProps={{ sx: { height: 200 } }} type="text" label="Escriba palabras en ingles"
+          id="message"
+          name="message"
+          value={message}
+          onChange={handleChange}
+          multiline
+          rows={8}
+        />
+
+        <CardActions sx={{ display: 'flex' }}>
           <Button variant="outlined" onClick={verTraduccionAlIngles}>Traduccion al Ingles</Button>
           <Button variant="outlined" onClick={verTraduccionAlEspanol}>Traduccion al Español</Button>
-          </CardActions>
-      
-        
-          <Button onClick={reproducirAudioInlgesEspanol}>
-            Reproducir Audio intercalado ingles-español
-            <RecordVoiceOverIcon />
-          </Button>
-          <h1>
-            {textoIngles}
-          </h1>
-          <h1>
-            {textoEspanol}
-          </h1>
-       
-        <Card sx={{ minWidth: 275, backgroundColor: 'black' }}>
+        </CardActions>
+
+
+        <Button onClick={reproducirAudioInlgesEspanol}>
+          Reproducir Audio intercalado ingles-español
+          <RecordVoiceOverIcon />
+        </Button>
+        <h1>
+          {textoIngles}
+        </h1>
+        <h1>
+          {textoEspanol}
+        </h1>
+
+        <CardContent sx={{ display: 'flex' }}>
+          <Card sx={{ minWidth: 275, backgroundColor: 'black' }}>
+            <CardContent>
+              <Typography sx={{ fontSize: 14, color: 'white' }} color="text.secondary" gutterBottom>
+                {wordIngles}
+              </Typography>
+
+              <Typography sx={{ mb: 1.5, color: 'white' }} color="text.secondary">
+                {wordEspanol}
+              </Typography>
+
+
+            </CardContent>
+            <Box sx={{ width: '100%' }}>
+              <LinearProgress variant="determinate" value={progress} />
+            </Box>
+          </Card>
+
           <CardContent>
-            <Typography sx={{ fontSize: 14, color: 'white' }} color="text.secondary" gutterBottom>
-              {wordIngles}
-            </Typography>
-
-            <Typography sx={{ mb: 1.5, color: 'white' }} color="text.secondary">
-              {wordEspanol}
-            </Typography>
-
+            <h4>activar repeticion</h4>
+            <Switch
+              checked={activeRep}
+              onChange={handleChangeActivate}
+              inputProps={{ 'aria-label': 'controlled' }}
+            />
           </CardContent>
-
-        </Card>
+        </CardContent>
         <br />
         {/*texto de la base de datos       width: "100%", whiteSpace: 'normal',wordBreak:"break-word" */}
         <TextField sx={{
           width: "100%"
         }}
-          InputProps={{ sx: { height: 300} }} type="text" label="save in db(Base de datos)"
+          InputProps={{ sx: { height: 300 } }} type="text" label="save in db(Base de datos)"
           id="message"
           name="message"
           value={dbTextOne}
