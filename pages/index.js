@@ -57,7 +57,7 @@ const Home = (props) => {
   useEffect(() => {
     //lamar api get dbtext
 
-   // apiGETdbOne()
+    // apiGETdbOne()
     apiGetCitaTxt();
   }, []);
 
@@ -114,7 +114,7 @@ const Home = (props) => {
     const getCitaTxtID = await getDoc(doc(db, 'cita', 'axjiZ2ZVpObICIvhou0r'));
     setDbTextoOne(getCitaTxtID.data().texto)
     console.log("cita recuperado ", getCitaTxtID.data().texto)
-  //  console.log("cita recuperado ", getCitaTxtID.data().valor.texto)
+    //  console.log("cita recuperado ", getCitaTxtID.data().valor.texto)
   }
 
   const apiSETdbOne = async () => {
@@ -126,7 +126,7 @@ const Home = (props) => {
 
       await updateDoc(doc(db, 'cita', 'axjiZ2ZVpObICIvhou0r'), valor);
       console.log("guardado")
-    
+
     } catch (error) {
       console.log(error)
     }
@@ -257,18 +257,24 @@ const Home = (props) => {
       </Head>
 
       <main className={styles.main}>
-        <div >
+        
 
-          <h5>Traductor de palabras ingles-esañol + audio repetido</h5>
-          <TextField sx={{ width: '80%' }} type="text" label="Escriba palabras en ingles"
+          <h5>Traductor de palabras  + audio repetido intercalando ingles-esañol</h5>
+          <TextField sx={{ width: '80%' }}  InputProps={{ sx: { height: 200} }}  type="text" label="Escriba palabras en ingles"
             id="message"
             name="message"
             value={message}
             onChange={handleChange}
-            inputProps={inputProps} />
-
+            multiline
+            rows={8}
+             />
+          <br />
+          <CardActions sx={{display:'flex'}}>
           <Button variant="outlined" onClick={verTraduccionAlIngles}>Traduccion al Ingles</Button>
           <Button variant="outlined" onClick={verTraduccionAlEspanol}>Traduccion al Español</Button>
+          </CardActions>
+      
+        
           <Button onClick={reproducirAudioInlgesEspanol}>
             Reproducir Audio intercalado ingles-español
             <RecordVoiceOverIcon />
@@ -279,7 +285,7 @@ const Home = (props) => {
           <h1>
             {textoEspanol}
           </h1>
-        </div>
+       
         <Card sx={{ minWidth: 275, backgroundColor: 'black' }}>
           <CardContent>
             <Typography sx={{ fontSize: 14, color: 'white' }} color="text.secondary" gutterBottom>
@@ -294,17 +300,24 @@ const Home = (props) => {
 
         </Card>
         <br />
-        {/*texto de la base de datos */}
-        <TextField sx={{ width: '100%' }} type="text" label="save in db(Base de datos)"
+        {/*texto de la base de datos       width: "100%", whiteSpace: 'normal',wordBreak:"break-word" */}
+        <TextField sx={{
+          width: "100%"
+        }}
+          InputProps={{ sx: { height: 300} }} type="text" label="save in db(Base de datos)"
           id="message"
           name="message"
           value={dbTextOne}
           onChange={handleChangeDbone}
+          multiline
+          rows={10}
         />
         <Button variant="contained" onClick={btnApiSETdbone}>update text in db</Button>
-       {/* <Button onClick={btnUpdateMessage}>
+        {/* <Button onClick={btnUpdateMessage}>
           <RecordVoiceOverIcon />
         </Button>*/}
+
+
 
       </main>
 
@@ -312,7 +325,7 @@ const Home = (props) => {
         <a
 
         >
-          Powered by{' '}
+          aprende ingles
 
         </a>
       </footer>
