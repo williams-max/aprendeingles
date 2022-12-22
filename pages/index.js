@@ -44,6 +44,8 @@ const Home = (props) => {
   const [wordIngles, setWordIngles] = useState('');
   //var for api dbone.json
   const [dbTextOne, setDbTextoOne] = useState('');
+  const [dbTextTwo, setDbTextoTwo] = useState('');
+  const [dbTextThree, setDbTextoThree] = useState('');
   //var repticion
   const [activeRep, setActivateRep] = useState(false)
   const [vozHablando, setVozHablando] = useState(false)
@@ -65,8 +67,9 @@ const Home = (props) => {
   useEffect(() => {
     //lamar api get dbtext
 
-    // apiGETdbOne()
-    apiGetCitaTxt();
+    apiGetCitaTxtOne();
+    apiGetCitaTxtTwo();
+    apiGetCitaTxtThree();
   }, []);
 
 
@@ -97,8 +100,29 @@ const Home = (props) => {
   const btnApiSETdbone = async () => {
     apiSETdbOne();
   }
+
+  const btnApiSETdbTwo = async () => {
+    apiSETdbTwo();
+  }
+
+  const btnApiSETdbThree = async () => {
+    apiSETdbThree();
+  }
+
   const handleChangeDbone = event => {
     setDbTextoOne(event.target.value);
+
+    console.log('value is:', event.target.value);
+  };
+
+  const handleChangeDbtwo = event => {
+    setDbTextoTwo(event.target.value);
+
+    console.log('value is:', event.target.value);
+  };
+
+  const handleChangeDbthree = event => {
+    setDbTextoThree(event.target.value);
 
     console.log('value is:', event.target.value);
   };
@@ -124,17 +148,29 @@ const Home = (props) => {
     }
   }
 
+ const codIDone="axjiZ2ZVpObICIvhou0r";
+ const codIDtwo="CfyoyPLe4DOThYxSZh6t";
+ const codIDthree="uuqu3alRdYgwXcXbTF9l";
 
-
-  const apiGetCitaTxt = async () => {
+  const apiGetCitaTxtOne = async () => {
     const getCitaTxtID = await getDoc(doc(db, 'cita', 'axjiZ2ZVpObICIvhou0r'));
     setDbTextoOne(getCitaTxtID.data().texto)
     //console.log("cita recuperado ", getCitaTxtID.data().texto)
     //  console.log("cita recuperado ", getCitaTxtID.data().valor.texto)
   }
 
-  const apiSETdbOne = async () => {
+  const apiGetCitaTxtTwo = async () => {
+    const getCitaTxtID = await getDoc(doc(db, 'cita',codIDtwo));
+    setDbTextoTwo(getCitaTxtID.data().texto)
+  
+  }
+  const apiGetCitaTxtThree = async () => {
+    const getCitaTxtID = await getDoc(doc(db, 'cita',codIDthree));
+    setDbTextoThree(getCitaTxtID.data().texto)
+ 
+  }
 
+  const apiSETdbOne = async () => {
     const valor = {
       texto: dbTextOne
     }
@@ -146,8 +182,37 @@ const Home = (props) => {
     } catch (error) {
       console.log(error)
     }
-
   }
+
+  const apiSETdbTwo = async () => {
+    const valor = {
+      texto: dbTextTwo
+    }
+    try {
+
+      await updateDoc(doc(db, 'cita',codIDtwo), valor);
+      console.log("guardado")
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const apiSETdbThree = async () => {
+    const valor = {
+      texto: dbTextThree
+    }
+    try {
+
+      await updateDoc(doc(db, 'cita',codIDthree), valor);
+      console.log("guardado")
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   const apiTextoAlIngles = async () => {
 
     try {
@@ -354,11 +419,32 @@ const Home = (props) => {
           rows={10}
         />
         <Button variant="contained" onClick={btnApiSETdbone}>update text in db</Button>
-        {/* <Button onClick={btnUpdateMessage}>
-          <RecordVoiceOverIcon />
-        </Button>*/}
 
+        <TextField sx={{
+          width: "100%"
+        }}
+          InputProps={{ sx: { height: 300 } }} type="text" label="save in db(Base de datos)"
+          id="message"
+          name="message"
+          value={dbTextTwo}
+          onChange={handleChangeDbtwo}
+          multiline
+          rows={10}
+        />
+        <Button variant="contained" onClick={btnApiSETdbTwo}>update text in db</Button>
 
+        <TextField sx={{
+          width: "100%"
+        }}
+          InputProps={{ sx: { height: 300 } }} type="text" label="save in db(Base de datos)"
+          id="message"
+          name="message"
+          value={dbTextThree}
+          onChange={handleChangeDbthree}
+          multiline
+          rows={10}
+        />
+        <Button variant="contained" onClick={btnApiSETdbThree}>update text in db</Button>
 
       </main>
 
