@@ -445,26 +445,31 @@ const Home = (props) => {
           rows={10}
         />
         <Button variant="contained" onClick={btnApiSETdbThree}>update text in db</Button>
-        <div style={{display:'flex'}}>
-          <CardMedia
-            component="img"
-            /*height="140"*/
-            image={"/1.jpeg"}
-            alt="image"
-            className={styles.img2}
-          />
 
-          <CardMedia
-            component="img"
-            /*height="140"*/
-            image={"/2.jpeg"}
-            alt="image"
-            className={styles.img2}
-          />
-        </div>
 
       </main>
 
+      <div style={{ }}>
+
+
+      
+
+        <CardMedia
+          component="img"
+          /*height="140"*/
+          image={"/1.jpeg"}
+          alt="image"
+          className={styles.img2}
+        />
+
+<CardMedia
+          component="img"
+          /*height="140"*/
+          image={"/2.jpeg"}
+          alt="image"
+          className={styles.img2}
+        />
+      </div>
       <footer className={styles.footer}>
         <a
 
