@@ -483,6 +483,13 @@ const Home = (props) => {
           alt="image"
           className={styles.img2}
         />
+          <CardMedia
+          component="img"
+          /*height="140"*/
+          image={"/5.jpg"}
+          alt="image"
+          className={styles.img2}
+        />
       </div>
       <footer className={styles.footer}>
         <a
