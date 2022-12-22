@@ -449,10 +449,10 @@ const Home = (props) => {
 
       </main>
 
-      <div style={{ }}>
+      <div style={{}}>
 
 
-      
+
 
         <CardMedia
           component="img"
@@ -462,10 +462,24 @@ const Home = (props) => {
           className={styles.img2}
         />
 
-<CardMedia
+        <CardMedia
           component="img"
           /*height="140"*/
           image={"/2.jpeg"}
+          alt="image"
+          className={styles.img2}
+        />
+        <CardMedia
+          component="img"
+          /*height="140"*/
+          image={"/3.png"}
+          alt="image"
+          className={styles.img2}
+        />
+        <CardMedia
+          component="img"
+          /*height="140"*/
+          image={"/4.jpg"}
           alt="image"
           className={styles.img2}
         />
