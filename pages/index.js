@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Box, Button, Card, CardActions, Typography, CardContent,
-  Switch, LinearProgress
+  Switch, LinearProgress, CardMedia
 } from '@mui/material';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import TextField from '@mui/material/TextField';
@@ -55,7 +55,7 @@ const Home = (props) => {
 
   var tamnioTexto = 0;
   var divisionAvanzar = 0;
-  var suma=0;
+  var suma = 0;
 
   useEffect(() => {
     if (message) {
@@ -148,9 +148,9 @@ const Home = (props) => {
     }
   }
 
- const codIDone="axjiZ2ZVpObICIvhou0r";
- const codIDtwo="CfyoyPLe4DOThYxSZh6t";
- const codIDthree="uuqu3alRdYgwXcXbTF9l";
+  const codIDone = "axjiZ2ZVpObICIvhou0r";
+  const codIDtwo = "CfyoyPLe4DOThYxSZh6t";
+  const codIDthree = "uuqu3alRdYgwXcXbTF9l";
 
   const apiGetCitaTxtOne = async () => {
     const getCitaTxtID = await getDoc(doc(db, 'cita', 'axjiZ2ZVpObICIvhou0r'));
@@ -160,14 +160,14 @@ const Home = (props) => {
   }
 
   const apiGetCitaTxtTwo = async () => {
-    const getCitaTxtID = await getDoc(doc(db, 'cita',codIDtwo));
+    const getCitaTxtID = await getDoc(doc(db, 'cita', codIDtwo));
     setDbTextoTwo(getCitaTxtID.data().texto)
-  
+
   }
   const apiGetCitaTxtThree = async () => {
-    const getCitaTxtID = await getDoc(doc(db, 'cita',codIDthree));
+    const getCitaTxtID = await getDoc(doc(db, 'cita', codIDthree));
     setDbTextoThree(getCitaTxtID.data().texto)
- 
+
   }
 
   const apiSETdbOne = async () => {
@@ -190,7 +190,7 @@ const Home = (props) => {
     }
     try {
 
-      await updateDoc(doc(db, 'cita',codIDtwo), valor);
+      await updateDoc(doc(db, 'cita', codIDtwo), valor);
       console.log("guardado")
 
     } catch (error) {
@@ -204,7 +204,7 @@ const Home = (props) => {
     }
     try {
 
-      await updateDoc(doc(db, 'cita',codIDthree), valor);
+      await updateDoc(doc(db, 'cita', codIDthree), valor);
       console.log("guardado")
 
     } catch (error) {
@@ -282,8 +282,8 @@ const Home = (props) => {
     for (i = 0; i < result.length; i++) {
 
       //logica barra lienal progress
-       suma=suma+divisionAvanzar;
-      console.log("suma ",suma)
+      suma = suma + divisionAvanzar;
+      console.log("suma ", suma)
       setProgress(suma)
       //fin logica barra lineal progress
       var sentence = result[i];
@@ -445,6 +445,23 @@ const Home = (props) => {
           rows={10}
         />
         <Button variant="contained" onClick={btnApiSETdbThree}>update text in db</Button>
+        <div style={{display:'flex'}}>
+          <CardMedia
+            component="img"
+            /*height="140"*/
+            image={"/1.jpeg"}
+            alt="image"
+            className={styles.img2}
+          />
+
+          <CardMedia
+            component="img"
+            /*height="140"*/
+            image={"/2.jpeg"}
+            alt="image"
+            className={styles.img2}
+          />
+        </div>
 
       </main>
 

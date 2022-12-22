@@ -2,6 +2,11 @@
   padding: 0 2rem;
 }
 
+.img2 {
+  width: 20%;
+  /*height: 20%;*/
+}
+
 .main {
   min-height: 100vh;
 
