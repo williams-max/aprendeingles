@@ -4,10 +4,13 @@
 
 .img2 {
   padding: 10px;
-  width: 20%;
+  width: 30%;
   /*height: 20%;*/
 }
-
+.subCajasImgs{
+display: flex;
+flex-direction: row;
+}
 .main {
   min-height: 100vh;
 
@@ -128,6 +131,10 @@
 @media (max-width: 600px) {
 .img2{
   width: 100%;
+}
+.subCajasImgs{
+  display: flex;
+  flex-direction: column;
 }
 }
 @media (prefers-color-scheme: dark) {

@@ -94,7 +94,7 @@ const Home = (props) => {
   const handleChange = event => {
     setMessage(event.target.value);
 
- //   console.log('value is:', event.target.value);
+    //   console.log('value is:', event.target.value);
   };
 
   const btnApiSETdbone = async () => {
@@ -112,19 +112,19 @@ const Home = (props) => {
   const handleChangeDbone = event => {
     setDbTextoOne(event.target.value);
 
- //   console.log('value is:', event.target.value);
+    //   console.log('value is:', event.target.value);
   };
 
   const handleChangeDbtwo = event => {
     setDbTextoTwo(event.target.value);
 
-//    console.log('value is:', event.target.value);
+    //    console.log('value is:', event.target.value);
   };
 
   const handleChangeDbthree = event => {
     setDbTextoThree(event.target.value);
 
-   // console.log('value is:', event.target.value);
+    // console.log('value is:', event.target.value);
   };
 
   const btnUpdateMessage = async () => {
@@ -177,7 +177,7 @@ const Home = (props) => {
     try {
 
       await updateDoc(doc(db, 'cita', 'axjiZ2ZVpObICIvhou0r'), valor);
-   //   console.log("guardado")
+      //   console.log("guardado")
 
     } catch (error) {
       console.log(error)
@@ -191,7 +191,7 @@ const Home = (props) => {
     try {
 
       await updateDoc(doc(db, 'cita', codIDtwo), valor);
-    //  console.log("guardado")
+      //  console.log("guardado")
 
     } catch (error) {
       console.log(error)
@@ -283,7 +283,7 @@ const Home = (props) => {
 
       //logica barra lienal progress
       suma = suma + divisionAvanzar;
-     // console.log("suma ", suma)
+      // console.log("suma ", suma)
       setProgress(suma)
       //fin logica barra lineal progress
       var sentence = result[i];
@@ -316,7 +316,7 @@ const Home = (props) => {
       var word = palEspanol.data;
       /*actula estado español */
       setWordEspanol(word);
-    //  console.log("frond end ", word)
+      //  console.log("frond end ", word)
 
       palabra.text = word;
       await new Promise(function (resolve) {
@@ -349,7 +349,7 @@ const Home = (props) => {
       </Head>
 
       <h4>should=deberían  // would=haría // could=pudo
-</h4>
+      </h4>
       <main className={styles.main}>
         <h5>Traductor de palabras  + reporductor de audio repetido intercalando ingles-esañol</h5>
         <TextField sx={{ width: '80%' }} InputProps={{ sx: { height: 200 } }} type="text" label="Escriba palabras en ingles"
@@ -449,47 +449,55 @@ const Home = (props) => {
 
       </main>
 
-      <div style={{}}>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
 
+        <div className={styles.subCajasImgs}>
+          <img className={styles.img2} src='/1.jpeg' />
+          <img className={styles.img2} src='/2.jpeg' />
+          <img className={styles.img2} src='/3.png' />
+        </div>
 
-
-
+        <div className={styles.subCajasImgs}>
+          <img className={styles.img2} src='/4.jpg' />
+          <img className={styles.img2} src='/5.jpg' />
+        </div>
+        {/*
         <CardMedia
           component="img"
-          /*height="140"*/
+       
           image={"/1.jpeg"}
           alt="image"
           className={styles.img2}
         />
-
+       
         <CardMedia
           component="img"
-          /*height="140"*/
-          image={"/2.jpeg"}
+       
+          image = { "/2.jpeg"}
           alt="image"
-          className={styles.img2}
+        className={styles.img2}
         />
         <CardMedia
           component="img"
-          /*height="140"*/
+ 
           image={"/3.png"}
           alt="image"
           className={styles.img2}
         />
         <CardMedia
           component="img"
-          /*height="140"*/
+         
           image={"/4.jpg"}
           alt="image"
           className={styles.img2}
         />
         <CardMedia
           component="img"
-          /*height="140"*/
+         
           image={"/5.jpg"}
           alt="image"
           className={styles.img2}
-        />
+        />*/}
       </div>
       <footer className={styles.footer}>
         <a
