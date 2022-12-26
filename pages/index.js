@@ -348,7 +348,7 @@ const Home = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h4>should=deberían  // would=haría // could=pudo
+      <h4>should=deberían  // would=haría // could=pudo 
       </h4>
       <main className={styles.main}>
         <h5>Traductor de palabras  + reporductor de audio repetido intercalando ingles-esañol</h5>
@@ -460,6 +460,7 @@ const Home = (props) => {
         <div className={styles.subCajasImgs}>
           <img className={styles.img2} src='/4.jpg' />
           <img className={styles.img2} src='/5.jpg' />
+          <img className={styles.img2} src='/6.png' />
         </div>
         {/*
         <CardMedia
